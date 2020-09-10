@@ -1,8 +1,13 @@
 # Shellwords
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/shellwords`. To experiment with that code, run `bin/console` for an interactive prompt.
+This module manipulates strings according to the word parsing rules
+of the UNIX Bourne shell.
 
-TODO: Delete this and the text above, and describe your gem
+The shellwords() function was originally a port of shellwords.pl,
+but modified to conform to the Shell & Utilities volume of the IEEE
+Std 1003.1-2008, 2016 Edition [1].
+
+[1] [IEEE Std 1003.1-2008, 2016 Edition, the Shell & Utilities volume](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html)
 
 ## Installation
 
@@ -22,7 +27,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'shellwords'
+
+argv = Shellwords.split('three blind "mice"')
+argv #=> ["three", "blind", "mice"]
+```
 
 ## Development
 
@@ -32,5 +42,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hsbt/shellwords.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ruby/shellwords.
 
