@@ -1,8 +1,6 @@
-require_relative 'lib/shellwords/version'
-
 Gem::Specification.new do |spec|
   spec.name          = "shellwords"
-  spec.version       = Shellwords::VERSION
+  spec.version       = "0.1.0"
   spec.authors       = ["Akinori MUSHA"]
   spec.email         = ["knu@idaemons.org"]
 
