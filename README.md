@@ -3,11 +3,11 @@
 This module manipulates strings according to the word parsing rules
 of the UNIX Bourne shell.
 
-The shellwords() function was originally a port of shellwords.pl,
-but modified to conform to the Shell & Utilities volume of the IEEE
-Std 1003.1-2008, 2016 Edition [1].
+The `shellwords()` function was originally a port of shellwords.pl,
+but modified to conform to [the Shell & Utilities volume of the IEEE
+Std 1003.1-2008, 2016 Edition].
 
-[1] [IEEE Std 1003.1-2008, 2016 Edition, the Shell & Utilities volume](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html)
+[the Shell & Utilities volume of the IEEE Std 1003.1-2008, 2016 Edition]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html
 
 ## Installation
 
@@ -43,4 +43,3 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ruby/shellwords.
-
