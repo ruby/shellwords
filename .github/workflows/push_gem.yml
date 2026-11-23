@@ -40,7 +40,12 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          tag_name="$(git describe --tags --abbrev=0)"
-          gh release create "${tag_name}" --verify-tag --generate-notes
+          tag_type="$(git cat-file -t "refs/tags/${TAG_NAME}")"
+          if [ "$tag_type" = tag ]; then
+            gh release create "$TAG_NAME" --verify-tag --title "$TAG_NAME" --notes-from-tag
+          else
+            gh release create "$TAG_NAME" --verify-tag --generate-notes
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
