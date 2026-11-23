@@ -4,13 +4,21 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 jobs:
   push:
-    if: github.repository == 'ruby/shellwords'
+    if: >-
+      github.repository == 'ruby/shellwords' &&
+      (github.event_name == 'push' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
 
     environment:
@@ -28,12 +36,21 @@ jobs:
           egress-policy: audit
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@d5126b9b3579e429dd52e51e68624dda2e05be25 # v1.267.0
+        uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
         with:
-          bundler-cache: true
           ruby-version: ruby
+
+      - name: Verify release tag
+        run: |
+          test "$(git rev-parse "refs/tags/${TAG_NAME}^{commit}")" = "$(git rev-parse HEAD)"
+          test "$TAG_NAME" = "v$(ruby -Ilib -rshellwords -e 'print Shellwords::VERSION')"
+
+      - name: Install dependencies
+        run: bundle install
 
       - name: Publish to RubyGems
         uses: rubygems/release-gem@7f9650160c1a4e7989fdc9855807bdbd421d8b6b # v1.4.1
@@ -48,4 +65,5 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ github.ref_name }}
+    env:
+      TAG_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
